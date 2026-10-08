@@ -1,23 +1,23 @@
 {
   "name": "lz4-kafkajs",
   "version": "2.0.0",
-  "description": "LZ4 streaming compression and decompression library for KafkaJS",
+  "description": "LZ4 compression codec for KafkaJS",
   "author": "Marvin Pöperny",
   "keywords": [
     "kafka",
     "kafkajs",
     "compression",
-    "decompression",
     "lz4",
-    "codec"
+    "codec",
+    "typescript"
   ],
-  "homepage": "http://github.com/paister/lz4-kafkajs",
+  "homepage": "https://github.com/paister/lz4-kafkajs#readme",
   "repository": {
     "type": "git",
-    "url": "git://github.com/paister/lz4-kafkajs.git"
+    "url": "git+https://github.com/paister/lz4-kafkajs.git"
   },
   "bugs": {
-    "url": "http://github.com/paister/lz4-kafkajs/issues"
+    "url": "https://github.com/paister/lz4-kafkajs/issues"
   },
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
@@ -26,6 +26,9 @@
   ],
   "engines": {
     "node": ">=18"
+  },
+  "peerDependencies": {
+    "kafkajs": "^2.0.0"
   },
   "license": "MIT",
   "packageManager": "pnpm@12.10.1",
