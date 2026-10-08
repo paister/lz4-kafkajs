@@ -1,6 +1,6 @@
 {
   "name": "lz4-kafkajs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "LZ4 streaming compression and decompression library for KafkaJS",
   "author": "Marvin Pöperny",
   "keywords": [
@@ -21,7 +21,17 @@
   },
   "main": "./src/index.js",
   "license": "MIT",
+  "packageManager": "pnpm@12.10.1",
+  "scripts": {
+    "test": "node --test",
+    "test:integration": "node --test integration/kafka-roundtrip.integration.js",
+    "kafka:up": "docker compose up --detach --wait",
+    "kafka:down": "docker compose down"
+  },
   "dependencies": {
     "lz4": "^0.6.5"
+  },
+  "devDependencies": {
+    "kafkajs": "^2.2.4"
   }
 }
