@@ -1,8 +1,7 @@
-"use strict";
-const { describe, it } = require("node:test");
-const assert = require("node:assert/strict");
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 
-const LZ4Codec = require("../src/index.js");
+import LZ4Codec, { type CompressOptions } from "../src/index.js";
 
 // Every LZ4 frame starts with this number, stored as little endian.
 // https://github.com/lz4/lz4/blob/dev/doc/lz4_Frame_format.md
@@ -15,7 +14,9 @@ const BLOCK_INDEPENDENCE_FLAG = 0b00100000;
 const BLOCK_CHECKSUM_FLAG = 0b00010000;
 const CONTENT_CHECKSUM_FLAG = 0b00000100;
 
-async function compressWithOptions(compressOptions) {
+async function compressWithOptions(
+  compressOptions: CompressOptions | undefined,
+): Promise<number> {
   const kafkaJsCodec = new LZ4Codec({ compressOptions }).codec();
   const compressed = await kafkaJsCodec.compress({
     buffer: REPETITIVE_PAYLOAD,
@@ -94,5 +95,21 @@ describe("LZ4Codec compress options", () => {
     const restored = await kafkaJsCodec.decompress(compressed);
 
     assert.ok(restored.equals(REPETITIVE_PAYLOAD));
+  });
+});
+
+// Plain JavaScript users and `import LZ4 from` users must get the same class.
+describe("LZ4Codec module shape", () => {
+  // `require` is deliberate: it is how a plain JavaScript user loads the package.
+  const required = require("../src/index.js");
+
+  it("is the class itself when loaded with require", () => {
+    assert.equal(typeof required, "function");
+    assert.ok(new required().codec().compress);
+  });
+
+  it("offers the same class as the default export", () => {
+    assert.equal(required.default, required);
+    assert.equal(LZ4Codec, required);
   });
 });

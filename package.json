@@ -1,6 +1,6 @@
 {
   "name": "lz4-kafkajs",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "LZ4 compression codec for KafkaJS",
   "author": "Marvin Pöperny",
   "keywords": [
@@ -19,10 +19,10 @@
   "bugs": {
     "url": "https://github.com/paister/lz4-kafkajs/issues"
   },
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
   "files": [
-    "src"
+    "dist/src"
   ],
   "engines": {
     "node": ">=18"
@@ -33,13 +33,21 @@
   "license": "MIT",
   "packageManager": "pnpm@12.10.1",
   "scripts": {
-    "test": "node --test",
-    "test:integration": "node --test integration/kafka-roundtrip.integration.js",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome ci .",
+    "format": "biome check --write .",
+    "test": "tsc && node --test dist/test/lz4-compression.test.js",
+    "test:integration": "tsc && node --test dist/integration/kafka-roundtrip.integration.js",
     "kafka:up": "docker compose up --detach --wait",
-    "kafka:down": "docker compose down"
+    "kafka:down": "docker compose down",
+    "prepack": "tsc"
   },
   "devDependencies": {
-    "kafkajs": "^2.2.4"
+    "@biomejs/biome": "^2.5.15",
+    "@types/node": "^18.19.130",
+    "kafkajs": "^2.2.4",
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "lz4-napi": "^2.10.0"

@@ -1,19 +1,18 @@
-"use strict";
-const { test } = require("node:test");
-const assert = require("node:assert/strict");
-const crypto = require("node:crypto");
-const {
-  Kafka,
-  CompressionTypes,
-  CompressionCodecs,
-  logLevel,
-} = require("kafkajs");
+import assert from "node:assert/strict";
+import crypto from "node:crypto";
+import { test } from "node:test";
+import { CompressionCodecs, CompressionTypes, Kafka, logLevel } from "kafkajs";
 
-const LZ4Codec = require("../src/index.js");
+import LZ4Codec from "../src/index.js";
 
 const BROKERS = (process.env.KAFKA_BROKERS || "localhost:19092").split(",");
 const MESSAGE_COUNT = 100;
 const CONSUME_TIMEOUT_MS = 30_000;
+
+interface TestMessage {
+  key: string;
+  value: string;
+}
 
 test("messages sent with LZ4 compression arrive unchanged", async () => {
   CompressionCodecs[CompressionTypes.LZ4] = new LZ4Codec().codec;
@@ -23,10 +22,13 @@ test("messages sent with LZ4 compression arrive unchanged", async () => {
     logLevel: logLevel.NOTHING,
   });
   const topic = `lz4-test-${crypto.randomUUID()}`;
-  const sentMessages = Array.from({ length: MESSAGE_COUNT }, (_, index) => ({
-    key: `key-${index}`,
-    value: `value-${index} ${"payload ".repeat(50)}`,
-  }));
+  const sentMessages: TestMessage[] = Array.from(
+    { length: MESSAGE_COUNT },
+    (_, index) => ({
+      key: `key-${index}`,
+      value: `value-${index} ${"payload ".repeat(50)}`,
+    }),
+  );
 
   const producer = kafka.producer();
   await producer.connect();
@@ -41,22 +43,27 @@ test("messages sent with LZ4 compression arrive unchanged", async () => {
   }
 
   const consumer = kafka.consumer({ groupId: `group-${crypto.randomUUID()}` });
-  const receivedMessages = [];
+  const receivedMessages: TestMessage[] = [];
   await consumer.connect();
   try {
     await consumer.subscribe({ topic, fromBeginning: true });
 
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       const timeout = setTimeout(
-        () => reject(new Error(`Only received ${receivedMessages.length}/${MESSAGE_COUNT} messages`)),
-        CONSUME_TIMEOUT_MS
+        () =>
+          reject(
+            new Error(
+              `Only received ${receivedMessages.length}/${MESSAGE_COUNT} messages`,
+            ),
+          ),
+        CONSUME_TIMEOUT_MS,
       );
       consumer
         .run({
           eachMessage: async ({ message }) => {
             receivedMessages.push({
-              key: message.key.toString(),
-              value: message.value.toString(),
+              key: String(message.key),
+              value: String(message.value),
             });
             if (receivedMessages.length === MESSAGE_COUNT) {
               clearTimeout(timeout);
