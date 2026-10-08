@@ -53,7 +53,7 @@ The four workloads are a small batch (3 KB), a typical batch (102 KB), a large b
 7. **`comprs` 2.x ties the install to Node 22.** A library that supports Node 18 or 20 cannot rely on it.
 ## Where this leaves `lz4-kafkajs`
 
-`lz4-napi` is the best fit for this package: second in speed, the only one that stays fast under concurrency and keeps the event loop free, prebuilt binaries for all common platforms, and no Node 22 requirement. Switching changes the options (`contentChecksum` and `blockChecksums` instead of the `lz4` options), so it needs a major version. This is a recommendation and has not been done yet.
+`lz4-napi` is the best fit for this package: second in speed, the only one that stays fast under concurrency and keeps the event loop free, prebuilt binaries for all common platforms, and no Node 22 requirement. Switching changes the options (`contentChecksum` and `blockChecksums` instead of the `lz4` options), so it needs a major version. Version 2 of `lz4-kafkajs` uses `lz4-napi`.
 
 ## Limits
 
