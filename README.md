@@ -87,13 +87,18 @@ Version 2 decompresses about 6 times faster than version 1 and does its work on 
 ```bash
 nvm use
 pnpm install
-pnpm test                # unit tests, no external service needed
+pnpm test                # builds, then runs the unit tests, no external service needed
 pnpm kafka:up            # starts a single-node Kafka in Docker on localhost:19092
 pnpm test:integration
 pnpm kafka:down
+pnpm lint                # Biome: lint and format check
+pnpm format              # Biome: fix formatting and import order
+pnpm typecheck
 ```
 
-- `test/lz4-compression.test.js` (unit): checks that the codec produces a real LZ4 frame, that it shrinks repetitive data, that decompressing restores it, and that the compress options end up in the frame header.
-- `integration/kafka-roundtrip.integration.js` (integration): sends messages with LZ4 compression through a real Kafka broker and checks that they arrive unchanged. Set `KAFKA_BROKERS` (comma separated) to use another broker.
+The code is TypeScript in `src/`. `pnpm build` compiles it with `tsc` into `dist/`, and only `dist/src` is published: plain JavaScript plus type declarations generated from the source. The tests run against that compiled output.
+
+- `test/lz4-compression.test.ts` (unit): checks that the codec produces a real LZ4 frame, that it shrinks repetitive data, that decompressing restores it, that the compress options end up in the frame header, and that the package loads with both `require` and `import`.
+- `integration/kafka-roundtrip.integration.ts` (integration): sends messages with LZ4 compression through a real Kafka broker and checks that they arrive unchanged. Set `KAFKA_BROKERS` (comma separated) to use another broker.
 
 Kafka only supports independent LZ4 blocks. A codec that writes dependent blocks is rejected by the broker with "Dependent block stream is unsupported".
