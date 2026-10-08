@@ -23,7 +23,10 @@
   "license": "MIT",
   "packageManager": "pnpm@12.10.1",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "test:integration": "node --test integration/kafka-roundtrip.integration.js",
+    "kafka:up": "docker compose up --detach --wait",
+    "kafka:down": "docker compose down"
   },
   "dependencies": {
     "lz4": "^0.6.5"
