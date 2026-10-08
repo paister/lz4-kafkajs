@@ -16,8 +16,8 @@ class LZ4Codec {
      */
     this.codec = () => {
       return {
-        compress: this.compress,
-        decompress: this.decompress,
+        compress: this.compress.bind(this),
+        decompress: this.decompress.bind(this),
       };
     };
   }
