@@ -1,0 +1,19 @@
+{
+  "name": "lz4-kafkajs-benchmark",
+  "private": true,
+  "type": "module",
+  "description": "Compares LZ4 libraries as KafkaJS compression codecs",
+  "scripts": {
+    "start": "node src/run.js"
+  },
+  "dependencies": {
+    "@derodero24/comprs": "^2.0.2",
+    "@warren-bank/lz4-hc-wasm": "^3.0.0",
+    "compress-utils": "^0.8.0",
+    "kafkajs": "^2.2.4",
+    "lz4": "^0.6.5",
+    "lz4-lite": "^1.1.2",
+    "lz4-napi": "^2.10.0",
+    "lz4js": "^0.2.0"
+  }
+}

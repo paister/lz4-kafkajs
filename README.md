@@ -71,6 +71,19 @@ const options: LZ4Options = {
 CompressionCodecs[CompressionTypes.LZ4] = new LZ4(options).codec;
 ```
 
+## Performance
+
+The `benchmark/` folder compares LZ4 libraries as KafkaJS codecs on real KafkaJS record batches. Only libraries that write frames Kafka accepts are measured.
+
+Throughput in MB/s for a typical batch (100 records, 102 KB), Node 20, Apple Silicon. `x8` means eight operations in flight at once.
+
+| Library | compress | decompress | compress x8 | decompress x8 |
+| --- | ---: | ---: | ---: | ---: |
+| `lz4` (used by `lz4-kafkajs` 1.x) | 942 | 413 | 962 | 599 |
+| `lz4-napi` (Rust, thread pool) | 1168 | 2684 | 4760 | 8819 |
+
+Decompression is the weak spot of the `lz4` library used here, and it works on the main thread. The full results, the other libraries and the limits of the measurement are in [benchmark/FINDINGS.md](benchmark/FINDINGS.md). Run it yourself with `pnpm start` in `benchmark/`.
+
 ## Development
 
 The `lz4` dependency is a native module that does not build on Node 22 or newer, so development uses Node 20 (see `.nvmrc`).
