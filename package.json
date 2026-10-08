@@ -22,6 +22,9 @@
   "main": "./src/index.js",
   "license": "MIT",
   "packageManager": "pnpm@12.10.1",
+  "scripts": {
+    "test": "node --test"
+  },
   "dependencies": {
     "lz4": "^0.6.5"
   },
