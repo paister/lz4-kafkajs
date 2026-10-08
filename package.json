@@ -1,6 +1,6 @@
 {
   "name": "lz4-kafkajs",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "LZ4 compression codec for KafkaJS",
   "author": "Marvin Pöperny",
   "keywords": [
