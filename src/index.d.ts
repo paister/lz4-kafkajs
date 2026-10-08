@@ -1,59 +1,24 @@
 /// <reference types="node" />
 export interface CompressOptions {
   /**
-   * @default true
-   */
-  blockIndependence?: boolean;
-  /**
-   * Add compressed blocks checksum
+   * Add a checksum over the whole uncompressed content
    * @default false
    */
-  blockChecksum?: boolean;
+  contentChecksum?: boolean;
   /**
-   * Chunk size to use
-   * @default 4194304 (4MB)
-   */
-  blockMaxSize?: number;
-  /**
-   * Add full LZ4 stream size
+   * Add a checksum to every compressed block
    * @default false
    */
-  streamSize?: boolean;
-  /**
-   * Add full LZ4 stream checksum
-   * @default true
-   */
-  streamChecksum?: boolean;
-  /**
-   * Use dictionary
-   * @default false
-   */
-  dict?: boolean;
-  /**
-   * Dictionary id
-   * @default 0
-   */
-  dictId?: number;
-  /**
-   * Use high compression
-   * @default false
-   */
-  highCompression?: boolean;
-}
-
-export interface DecompressOptions {
-  useJS: boolean;
+  blockChecksums?: boolean;
 }
 
 export interface LZ4Options {
   compressOptions?: CompressOptions | undefined;
-  decompressOptions?: DecompressOptions | undefined;
 }
 /**
  * LZ4 Compression codec for the [KafkaJS](https://github.com/tulios/kafkajs) library.
  */
 export default class LZ4Codec {
-  private options?;
   constructor(options?: LZ4Options | undefined);
 
   private compress;

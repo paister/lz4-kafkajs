@@ -12,7 +12,8 @@ const REPETITIVE_PAYLOAD = Buffer.from("kafka ".repeat(1000));
 // The frame descriptor's flag byte follows the 4 byte magic number.
 const FRAME_FLAGS_OFFSET = 4;
 const BLOCK_INDEPENDENCE_FLAG = 0b00100000;
-const STREAM_CHECKSUM_FLAG = 0b00000100;
+const BLOCK_CHECKSUM_FLAG = 0b00010000;
+const CONTENT_CHECKSUM_FLAG = 0b00000100;
 
 async function compressWithOptions(compressOptions) {
   const kafkaJsCodec = new LZ4Codec({ compressOptions }).codec();
@@ -53,27 +54,45 @@ describe("LZ4Codec compression", () => {
 });
 
 describe("LZ4Codec compress options", () => {
-  it("writes a stream checksum by default", async () => {
+  it("writes no checksums by default", async () => {
     const frameFlags = await compressWithOptions(undefined);
 
-    assert.ok(frameFlags & STREAM_CHECKSUM_FLAG);
+    assert.equal(frameFlags & CONTENT_CHECKSUM_FLAG, 0);
+    assert.equal(frameFlags & BLOCK_CHECKSUM_FLAG, 0);
   });
 
-  it("leaves out the stream checksum when streamChecksum is false", async () => {
-    const frameFlags = await compressWithOptions({ streamChecksum: false });
+  it("writes a content checksum when contentChecksum is true", async () => {
+    const frameFlags = await compressWithOptions({ contentChecksum: true });
 
-    assert.equal(frameFlags & STREAM_CHECKSUM_FLAG, 0);
+    assert.ok(frameFlags & CONTENT_CHECKSUM_FLAG);
   });
 
-  it("uses independent blocks by default", async () => {
-    const frameFlags = await compressWithOptions(undefined);
+  it("writes block checksums when blockChecksums is true", async () => {
+    const frameFlags = await compressWithOptions({ blockChecksums: true });
+
+    assert.ok(frameFlags & BLOCK_CHECKSUM_FLAG);
+  });
+
+  // Kafka rejects dependent blocks, so the codec must never write them.
+  it("always uses independent blocks", async () => {
+    const frameFlags = await compressWithOptions({
+      contentChecksum: true,
+      blockChecksums: true,
+    });
 
     assert.ok(frameFlags & BLOCK_INDEPENDENCE_FLAG);
   });
 
-  it("uses dependent blocks when blockIndependence is false", async () => {
-    const frameFlags = await compressWithOptions({ blockIndependence: false });
+  it("restores the data when it was written with checksums", async () => {
+    const kafkaJsCodec = new LZ4Codec({
+      compressOptions: { contentChecksum: true, blockChecksums: true },
+    }).codec();
+    const compressed = await kafkaJsCodec.compress({
+      buffer: REPETITIVE_PAYLOAD,
+    });
 
-    assert.equal(frameFlags & BLOCK_INDEPENDENCE_FLAG, 0);
+    const restored = await kafkaJsCodec.decompress(compressed);
+
+    assert.ok(restored.equals(REPETITIVE_PAYLOAD));
   });
 });

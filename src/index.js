@@ -1,15 +1,13 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const lz4 = require("lz4");
+const { compressFrame, decompressFrame } = require("lz4-napi");
+
 /**
  * LZ4 Compression codec for the [KafkaJS](https://github.com/tulios/kafkajs) library.
  */
 class LZ4Codec {
   constructor(options) {
-    if (options) {
-      this.compressOptions = options.compressOptions;
-      this.decompressOptions = options.decompressOptions;
-    }
+    this.compressOptions = options?.compressOptions;
+
     /**
      * KafkaJS CompressionType-compatible LZ4 codec.
      * @memberof LZ4Codec
@@ -23,12 +21,15 @@ class LZ4Codec {
   }
 
   async compress(encoder) {
-    return lz4.encode(encoder.buffer, this.compressOptions);
+    return compressFrame(encoder.buffer, this.compressOptions);
   }
 
   async decompress(buffer) {
-    return lz4.decode(buffer, this.decompressOptions);
+    return decompressFrame(buffer);
   }
 }
-exports.default = LZ4Codec;
+
+// `module.exports` is the class itself, so `require("lz4-kafkajs")` works.
+// The `default` property keeps `import LZ4 from "lz4-kafkajs"` working too.
 module.exports = LZ4Codec;
+module.exports.default = LZ4Codec;

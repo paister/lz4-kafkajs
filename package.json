@@ -29,7 +29,7 @@
     "kafka:down": "docker compose down"
   },
   "dependencies": {
-    "lz4": "^0.6.5"
+    "lz4-napi": "^2.10.0"
   },
   "devDependencies": {
     "kafkajs": "^2.2.4"
