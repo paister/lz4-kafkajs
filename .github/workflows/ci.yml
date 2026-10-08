@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    name: Unit tests (Node ${{ matrix.node-version }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # 18 is the oldest version in "engines". The rest are the maintained
+        # releases: 20, 22 and 24 (LTS), 26 (Current).
+        os: [ubuntu-latest]
+        node-version: [18, 20, 22, 24, 26]
+        # lz4-napi ships a different prebuilt binary per platform, so the
+        # other operating systems are checked on the current LTS.
+        include:
+          - os: macos-latest
+            node-version: 24
+          - os: windows-latest
+            node-version: 24
+    steps:
+      - uses: actions/checkout@v4
+      # The pnpm version comes from "packageManager" in package.json.
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+
+  integration-test:
+    name: Integration test (real Kafka broker)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm kafka:up
+      - run: pnpm test:integration
+      - name: Show broker logs when the test failed
+        if: failure()
+        run: docker compose logs kafka
+      - run: pnpm kafka:down
+        if: always()
