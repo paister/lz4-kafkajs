@@ -20,6 +20,13 @@
     "url": "http://github.com/paister/lz4-kafkajs/issues"
   },
   "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "files": [
+    "src"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
   "license": "MIT",
   "packageManager": "pnpm@12.10.1",
   "scripts": {
@@ -28,10 +35,10 @@
     "kafka:up": "docker compose up --detach --wait",
     "kafka:down": "docker compose down"
   },
-  "dependencies": {
-    "lz4-napi": "^2.10.0"
-  },
   "devDependencies": {
     "kafkajs": "^2.2.4"
+  },
+  "dependencies": {
+    "lz4-napi": "^2.10.0"
   }
 }
