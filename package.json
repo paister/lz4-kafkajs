@@ -1,25 +1,35 @@
 {
   "name": "lz4-kafkajs",
-  "version": "1.0.1",
-  "description": "LZ4 streaming compression and decompression library for KafkaJS",
+  "version": "2.0.0",
+  "description": "LZ4 compression codec for KafkaJS",
   "author": "Marvin Pöperny",
   "keywords": [
     "kafka",
     "kafkajs",
     "compression",
-    "decompression",
     "lz4",
-    "codec"
+    "codec",
+    "typescript"
   ],
-  "homepage": "http://github.com/paister/lz4-kafkajs",
+  "homepage": "https://github.com/paister/lz4-kafkajs#readme",
   "repository": {
     "type": "git",
-    "url": "git://github.com/paister/lz4-kafkajs.git"
+    "url": "git+https://github.com/paister/lz4-kafkajs.git"
   },
   "bugs": {
-    "url": "http://github.com/paister/lz4-kafkajs/issues"
+    "url": "https://github.com/paister/lz4-kafkajs/issues"
   },
   "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "files": [
+    "src"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "kafkajs": "^2.0.0"
+  },
   "license": "MIT",
   "packageManager": "pnpm@12.10.1",
   "scripts": {
@@ -28,10 +38,10 @@
     "kafka:up": "docker compose up --detach --wait",
     "kafka:down": "docker compose down"
   },
-  "dependencies": {
-    "lz4": "^0.6.5"
-  },
   "devDependencies": {
     "kafkajs": "^2.2.4"
+  },
+  "dependencies": {
+    "lz4-napi": "^2.10.0"
   }
 }
