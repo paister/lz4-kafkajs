@@ -1,6 +1,6 @@
 {
   "name": "lz4-kafkajs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "LZ4 streaming compression and decompression library for KafkaJS",
   "author": "Marvin Pöperny",
   "keywords": [
