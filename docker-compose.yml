@@ -1,6 +1,6 @@
 services:
   kafka:
-    image: apache/kafka:3.9.0
+    image: apache/kafka:4.3.1
     ports:
       # Not 9092, so a Kafka that is already running locally does not clash.
       - "19092:19092"
