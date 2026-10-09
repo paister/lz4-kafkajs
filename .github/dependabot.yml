@@ -6,6 +6,11 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    # The types must match the oldest supported Node version (engines.node),
+    # otherwise APIs that do not exist there would pass the type check.
+    ignore:
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     groups:
       dev-dependencies:
         dependency-type: development
