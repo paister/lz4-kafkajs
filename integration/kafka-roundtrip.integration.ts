@@ -14,7 +14,7 @@ interface TestMessage {
   value: string;
 }
 
-test("messages sent with LZ4 compression arrive unchanged", async () => {
+void test("messages sent with LZ4 compression arrive unchanged", async () => {
   CompressionCodecs[CompressionTypes.LZ4] = new LZ4Codec().codec;
 
   const kafka = new Kafka({
