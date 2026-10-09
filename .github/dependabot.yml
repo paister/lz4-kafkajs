@@ -1,0 +1,33 @@
+version: 2
+
+updates:
+  # Dependabot reads pnpm projects through the "npm" ecosystem.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      dev-dependencies:
+        dependency-type: development
+
+  - package-ecosystem: npm
+    directory: /benchmark
+    schedule:
+      interval: monthly
+    groups:
+      benchmark-dependencies:
+        patterns: ["*"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      github-actions:
+        patterns: ["*"]
+
+  # Keeps the Kafka broker image of the integration test current.
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule:
+      interval: monthly
