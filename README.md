@@ -85,14 +85,15 @@ CompressionCodecs[CompressionTypes.LZ4] = new LZ4(options).codec;
 
 The [`benchmark/`](benchmark) folder compares LZ4 libraries as KafkaJS codecs on real KafkaJS record batches. Only libraries that write frames Kafka accepts are measured.
 
-Throughput in MB/s for a typical batch (100 records, 102 KB), Node 20, Apple Silicon. `x8` means eight operations in flight at once.
+Throughput in MB/s for a typical batch (100 records, 102 KB), Apple Silicon. `x8` means eight operations in flight at once. `lz4` (version 1) does not build on Node 22 or newer, so it was only measured on Node 20. Version 2 was measured on Node 20 and on Node 24, the current LTS.
 
 | Library | compress | decompress | compress x8 | decompress x8 |
 | --- | ---: | ---: | ---: | ---: |
-| `lz4` (`lz4-kafkajs` 1.x) | 942 | 413 | 962 | 599 |
-| `lz4-napi` (`lz4-kafkajs` 2.x) | 1168 | 2684 | 4760 | 8819 |
+| `lz4` (`lz4-kafkajs` 1.x), Node 20 | 942 | 413 | 962 | 599 |
+| `lz4-napi` (`lz4-kafkajs` 2.x), Node 20 | 1168 | 2684 | 4760 | 8819 |
+| `lz4-napi` (`lz4-kafkajs` 2.x), Node 24 | 1165 | 2802 | 5129 | 11404 |
 
-What this means:
+What this means (compared on Node 20, where both run; Node 24 gives the same or slightly better numbers for version 2):
 
 - **Decompression is about 6 times faster** than in version 1.
 - **It scales under load.** With eight batches at once, version 2 reaches about 5 times the throughput of version 1 when compressing and about 15 times when decompressing.

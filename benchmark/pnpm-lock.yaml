@@ -20,9 +20,6 @@ importers:
       kafkajs:
         specifier: ^2.2.4
         version: 2.2.4
-      lz4:
-        specifier: ^0.6.5
-        version: 0.6.5
       lz4-lite:
         specifier: ^1.1.2
         version: 1.1.2
@@ -32,6 +29,10 @@ importers:
       lz4js:
         specifier: ^0.2.0
         version: 0.2.0
+    optionalDependencies:
+      lz4:
+        specifier: ^0.6.5
+        version: 0.6.5
 
 packages:
 
@@ -334,18 +335,22 @@ snapshots:
 
   '@warren-bank/lz4-hc-wasm@3.0.0': {}
 
-  base64-js@1.5.1: {}
+  base64-js@1.5.1:
+    optional: true
 
   buffer@5.7.1:
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
+    optional: true
 
   compress-utils@0.8.0: {}
 
-  cuint@0.2.2: {}
+  cuint@0.2.2:
+    optional: true
 
-  ieee754@1.2.1: {}
+  ieee754@1.2.1:
+    optional: true
 
   kafkajs@2.2.4: {}
 
@@ -377,11 +382,14 @@ snapshots:
       cuint: 0.2.2
       nan: 2.29.0
       xxhashjs: 0.2.2
+    optional: true
 
   lz4js@0.2.0: {}
 
-  nan@2.29.0: {}
+  nan@2.29.0:
+    optional: true
 
   xxhashjs@0.2.2:
     dependencies:
       cuint: 0.2.2
+    optional: true

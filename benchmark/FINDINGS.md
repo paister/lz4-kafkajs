@@ -1,6 +1,6 @@
 # Findings: LZ4 libraries as KafkaJS codecs
 
-Measured on 2026-10-08 with the benchmark in this folder, on an Apple Silicon Mac (darwin/arm64), Node 20.20 and Node 22.23. Both Node versions give the same ranking.
+Measured on 2026-10-08 with the benchmark in this folder, on an Apple Silicon Mac (darwin/arm64), Node 20.20 and Node 22.23. Both Node versions give the same ranking. On 2026-10-09 the ranking was measured again on Node 24.21 (the current LTS) and is unchanged.
 
 ## Libraries considered
 
@@ -31,14 +31,14 @@ Throughput in MB/s, median of 3 runs, Node 20. `x8` means eight operations in fl
 
 ### Ranking over all four workloads (geometric mean, one operation at a time)
 
-| # | Library | compress | decompress | combined (Node 20) | combined (Node 22) |
-| --: | --- | ---: | ---: | ---: | ---: |
-| 1 | `comprs` (sync) | 1712 | 2392 | 2024 | 2019 |
-| 2 | `lz4-napi` | 1135 | 2195 | 1579 | 1681 |
-| 3 | `comprs` (async) | 1133 | 1969 | 1494 | 1513 |
-| 4 | `lz4-lite` | 757 | 2310 | 1322 | 1374 |
-| 5 | `lz4` | 907 | 187 | 411 | not loadable |
-| 6 | `lz4-hc-wasm` | 28 | 116 | 57 | 58 |
+| # | Library | compress | decompress | combined (Node 20) | combined (Node 22) | combined (Node 24) |
+| --: | --- | ---: | ---: | ---: | ---: | ---: |
+| 1 | `comprs` (sync) | 1712 | 2392 | 2024 | 2019 | 2074 |
+| 2 | `lz4-napi` | 1135 | 2195 | 1579 | 1681 | 1700 |
+| 3 | `comprs` (async) | 1133 | 1969 | 1494 | 1513 | 1575 |
+| 4 | `lz4-lite` | 757 | 2310 | 1322 | 1374 | 1212 |
+| 5 | `lz4` | 907 | 187 | 411 | not loadable | not loadable |
+| 6 | `lz4-hc-wasm` | 28 | 116 | 57 | 58 | 54 |
 
 The four workloads are a small batch (3 KB), a typical batch (102 KB), a large batch (1 MB) and incompressible data (102 KB). The full tables come from `pnpm start`.
 

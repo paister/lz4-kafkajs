@@ -1,5 +1,6 @@
 import { CANDIDATES, loadCandidates } from "./candidates.js";
 import { findBrokerProblem, findInteropProblems, findKafkaFrameProblem } from "./correctness.js";
+import { appendResultsToCsv, defaultOutputPath } from "./export.js";
 import { measureConcurrent, measureSequential } from "./measure.js";
 import { createWorkloads } from "./workloads.js";
 
@@ -10,7 +11,9 @@ const DEFAULT_OPTIONS = {
   concurrency: 8,
   only: undefined,
   broker: undefined,
+  output: defaultOutputPath(),
 };
+const NO_SAVE_FLAG = "--no-save";
 const INTEROP_WORKLOAD_NAME = "typical batch";
 
 async function main() {
@@ -32,13 +35,24 @@ async function main() {
     printWorkloadTable(workload, results, options);
   }
   printRanking(resultsByWorkload);
+  saveResults(resultsByWorkload, options);
+}
+
+function saveResults(resultsByWorkload, options) {
+  if (!options.output) return;
+  const rowCount = appendResultsToCsv(options.output, resultsByWorkload, options);
+  console.log(`\nAppended ${rowCount} rows to ${options.output}`);
 }
 
 function parseArguments(args) {
   const options = { ...DEFAULT_OPTIONS };
   for (let index = 0; index < args.length; index += 2) {
     const [flag, value] = [args[index], args[index + 1]];
-    if (flag === "--duration") options.durationMs = Number(value);
+    if (flag === NO_SAVE_FLAG) {
+      options.output = undefined;
+      index -= 1;
+    } else if (flag === "--output") options.output = value;
+    else if (flag === "--duration") options.durationMs = Number(value);
     else if (flag === "--warmup") options.warmupMs = Number(value);
     else if (flag === "--repetitions") options.repetitions = Number(value);
     else if (flag === "--concurrency") options.concurrency = Number(value);
