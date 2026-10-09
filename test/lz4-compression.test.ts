@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { randomBytes } from "node:crypto";
 import { describe, it } from "node:test";
 
 import LZ4Codec, { type CompressOptions } from "../src/index.js";
@@ -7,6 +8,10 @@ import LZ4Codec, { type CompressOptions } from "../src/index.js";
 // https://github.com/lz4/lz4/blob/dev/doc/lz4_Frame_format.md
 const LZ4_FRAME_MAGIC_NUMBER = 0x184d2204;
 const REPETITIVE_PAYLOAD = Buffer.from("kafka ".repeat(1000));
+// 6 bytes per repetition, so this is about 6 MB: more than one LZ4 block
+// even at the largest block size (4 MB).
+const MULTI_BLOCK_PAYLOAD_LENGTH = 1_000_000;
+const INCOMPRESSIBLE_PAYLOAD_LENGTH = 100_000;
 
 // The frame descriptor's flag byte follows the 4 byte magic number.
 const FRAME_FLAGS_OFFSET = 4;
@@ -51,6 +56,68 @@ describe("LZ4Codec compression", () => {
     const restored = await kafkaJsCodec.decompress(compressed);
 
     assert.ok(restored.equals(REPETITIVE_PAYLOAD));
+  });
+});
+
+describe("LZ4Codec edge cases", () => {
+  const kafkaJsCodec = new LZ4Codec().codec();
+
+  async function roundTrip(original: Buffer): Promise<Buffer> {
+    const compressed = await kafkaJsCodec.compress({ buffer: original });
+    return kafkaJsCodec.decompress(compressed);
+  }
+
+  it("restores an empty buffer", async () => {
+    const restored = await roundTrip(Buffer.alloc(0));
+
+    assert.equal(restored.length, 0);
+  });
+
+  it("restores a single byte", async () => {
+    const original = Buffer.from([0x2a]);
+
+    assert.ok((await roundTrip(original)).equals(original));
+  });
+
+  it("restores a payload spanning many blocks", async () => {
+    const original = Buffer.from("kafka ".repeat(MULTI_BLOCK_PAYLOAD_LENGTH));
+
+    assert.ok((await roundTrip(original)).equals(original));
+  });
+
+  it("restores incompressible random data", async () => {
+    const original = randomBytes(INCOMPRESSIBLE_PAYLOAD_LENGTH);
+
+    assert.ok((await roundTrip(original)).equals(original));
+  });
+
+  it("rejects data that is not an LZ4 frame", async () => {
+    const notAFrame = Buffer.from("this is not lz4 data");
+
+    await assert.rejects(kafkaJsCodec.decompress(notAFrame));
+  });
+
+  it("rejects a truncated frame", async () => {
+    const compressed = await kafkaJsCodec.compress({
+      buffer: REPETITIVE_PAYLOAD,
+    });
+    const truncated = compressed.subarray(0, compressed.length / 2);
+
+    await assert.rejects(kafkaJsCodec.decompress(truncated));
+  });
+
+  it("rejects a corrupted frame when a content checksum is present", async () => {
+    const checksummedCodec = new LZ4Codec({
+      compressOptions: { contentChecksum: true, blockChecksums: true },
+    }).codec();
+    const compressed = await checksummedCodec.compress({
+      buffer: REPETITIVE_PAYLOAD,
+    });
+    const corrupted = Buffer.from(compressed);
+    const middle = Math.floor(corrupted.length / 2);
+    corrupted[middle] = (corrupted[middle] ?? 0) ^ 0xff;
+
+    await assert.rejects(checksummedCodec.decompress(corrupted));
   });
 });
 
