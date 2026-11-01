@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@derodero24/comprs':
-        specifier: ^2.0.2
-        version: 2.0.2
+        specifier: ^2.3.0
+        version: 2.3.0
       '@warren-bank/lz4-hc-wasm':
         specifier: ^3.0.0
         version: 3.0.0
       compress-utils:
-        specifier: ^0.8.0
-        version: 0.8.0
+        specifier: ^0.11.2
+        version: 0.11.2
       kafkajs:
         specifier: ^2.2.4
         version: 2.2.4
@@ -145,60 +145,60 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@derodero24/comprs-darwin-arm64@2.0.2':
-    resolution: {integrity: sha512-IIbmNrhloveguA9arTVrLNjQW1ApaZI4eVSZkUX6VeSL3oUIhJqhuzlAMqa3bPGKRQtSMUOCYz98BBzfsann8g==}
+  '@derodero24/comprs-darwin-arm64@2.3.0':
+    resolution: {integrity: sha512-SNWIxSScd6Vvte+c/2rLnnCvIGtyGySwV4Vs0L5W0UGlHrWiR4S793Kx9WO2iZJj2D9Stghap+FHfF/VU7XAAA==}
     engines: {node: '>=22.0.0'}
     cpu: [arm64]
     os: [darwin]
 
-  '@derodero24/comprs-darwin-x64@2.0.2':
-    resolution: {integrity: sha512-9AH9wjLX9VUSw7dJUpIqcZH8keYnX0LWr00YU8c25129GyMUqj51Vq0M1fknZDnyKRhEDfm/mfG7jRXwjLOYnQ==}
+  '@derodero24/comprs-darwin-x64@2.3.0':
+    resolution: {integrity: sha512-sEam7NI58Ol8J6PcQi51ouWAQQVaI66MWRbWGiaAg8Bp2QfmB6510FfbUFR64bm6cmYLWrQuyLMB1+JH06JOaw==}
     engines: {node: '>=22.0.0'}
     cpu: [x64]
     os: [darwin]
 
-  '@derodero24/comprs-linux-arm64-gnu@2.0.2':
-    resolution: {integrity: sha512-8d6bet6/H1p7qp8fRSOOBhBbbqOKh53060UqPm161WyQdRvo1YPB5mDAEojiu7inHS/1yMqfaAem1WWkj9rkhA==}
+  '@derodero24/comprs-linux-arm64-gnu@2.3.0':
+    resolution: {integrity: sha512-/Q//QlLuBBBFiCoHCQPRRs1Tuv6wg6WHhitrYUd9vMM78fGChGnN+/1X4zEX4vmxg+h/YWWsdgkXrwC1x71fcg==}
     engines: {node: '>=22.0.0'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@derodero24/comprs-linux-arm64-musl@2.0.2':
-    resolution: {integrity: sha512-WQfLRoXv8DwsWLexnCXPlnfGZyzctpnQirFEIiQrZmSXuWM9Ghlgk5EYkCpLDueozP4YujShXfMXu7wXSHpKvA==}
+  '@derodero24/comprs-linux-arm64-musl@2.3.0':
+    resolution: {integrity: sha512-JdGNC9kbVcdEV3dbjBe2lxc/jcyIeZJV/yZfs9Z9QbC4hgKJZRFeE8+U/bYR2z1PSI4/IOAhYCW/A1DkkjZO9g==}
     engines: {node: '>=22.0.0'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@derodero24/comprs-linux-x64-gnu@2.0.2':
-    resolution: {integrity: sha512-jpZtsnKsCPhR7sDiZYmi9cX6bUnyzMNhsHOyA1AkHkaEDvVeIPEwlHVZupZTX2ThfejaQkQnEWuQ1fxdEJGOug==}
+  '@derodero24/comprs-linux-x64-gnu@2.3.0':
+    resolution: {integrity: sha512-CZ9RmJw1wU/fiFdcQWamyzuy5kZ0ZbhuGUmemjd2FhVTT2gkHEI3zskX5TR4XelnZ9ujutFcFhk8UYakgDAFkA==}
     engines: {node: '>=22.0.0'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@derodero24/comprs-linux-x64-musl@2.0.2':
-    resolution: {integrity: sha512-oKigtahNyK27OLfeD2ifrXDqGpnM8aJYiUpw72CtV3NMugoiUk4OZqqOjC1yxe8/ZY/MToeNzR14AnsgWVlTtQ==}
+  '@derodero24/comprs-linux-x64-musl@2.3.0':
+    resolution: {integrity: sha512-UmFO5soY5JFOJH+/1emz54Uj8W3RhtEfogXwPo/1XNVPGn1joIXLqtqRw42Ao2eGDMLsQBSMAZZjD7AkTf93SQ==}
     engines: {node: '>=22.0.0'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@derodero24/comprs-win32-arm64-msvc@2.0.2':
-    resolution: {integrity: sha512-eqVsqsqvQhlG07zN+obENcKW8zX1wYXrHq1+QSXpxA5yphq5+3L3GGDX2rlEkfIE+Wcks5r8eIMvUDvtTgM5TA==}
+  '@derodero24/comprs-win32-arm64-msvc@2.3.0':
+    resolution: {integrity: sha512-D1B1GKxjfoXKExtG9t1X9Rhuq3h9AcfzDe2cPQJn4ZXdR6XPywi2NhNxOeBi3YV2oUIkyqAEGcDfpi0+K37cdw==}
     engines: {node: '>=22.0.0'}
     cpu: [arm64]
     os: [win32]
 
-  '@derodero24/comprs-win32-x64-msvc@2.0.2':
-    resolution: {integrity: sha512-Id9KYjZEyWVtmmQ0nlBMJUWnyhHgdP5pD6RFCk6WMj+CI3mwMXiKuql+b1Nv/VXLM7u/H4eEYfVuVLepeinl9w==}
+  '@derodero24/comprs-win32-x64-msvc@2.3.0':
+    resolution: {integrity: sha512-T0K2VehBDyYWCOuPLajNxxK5vz3QTCsHzFwGB4EfsFjLwwxiArVWFVhghkx5hIThQZuLAamRMNp25+iD59Uxrw==}
     engines: {node: '>=22.0.0'}
     cpu: [x64]
     os: [win32]
 
-  '@derodero24/comprs@2.0.2':
-    resolution: {integrity: sha512-HPqE5tf5FTaI63KputH6FyCMDWIyXKLg8FbfRYHzT2k5lSOx+Bj1Ud+k9aPCLcmfvZgyzfCDPke89ZHYRuICnw==}
+  '@derodero24/comprs@2.3.0':
+    resolution: {integrity: sha512-217k0CCcsyqYkvvaPEs0XSsP57krFdT6OKHAxYjL7Jg6LI3lEjIEpv2d3QAzC2UQTScGLiCzdBFdQlXmNlMsNQ==}
     engines: {node: '>=22.0.0'}
 
   '@warren-bank/lz4-hc-wasm@3.0.0':
@@ -210,8 +210,8 @@ packages:
   buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
 
-  compress-utils@0.8.0:
-    resolution: {integrity: sha512-aUk794YEft2+9mzgITcjXIgWTyWPpZj0EjSWWnbk9G2JhJjfsUCh7v6Aal/4VXmpN/0M1wKv39vWiUEtF156Zw==}
+  compress-utils@0.11.2:
+    resolution: {integrity: sha512-UhBsPNnUJC2RYGnAZr8Zg0yPuFS8qf+EdJrcNsK42xp0ceFZk0yJ/NOmbV19iP1tAFWCWuKOGuyAaoRqz4rpAQ==}
     engines: {node: '>=18'}
 
   cuint@0.2.2:
@@ -298,40 +298,40 @@ snapshots:
   '@antoniomuso/lz4-napi-win32-x64-msvc@2.10.0':
     optional: true
 
-  '@derodero24/comprs-darwin-arm64@2.0.2':
+  '@derodero24/comprs-darwin-arm64@2.3.0':
     optional: true
 
-  '@derodero24/comprs-darwin-x64@2.0.2':
+  '@derodero24/comprs-darwin-x64@2.3.0':
     optional: true
 
-  '@derodero24/comprs-linux-arm64-gnu@2.0.2':
+  '@derodero24/comprs-linux-arm64-gnu@2.3.0':
     optional: true
 
-  '@derodero24/comprs-linux-arm64-musl@2.0.2':
+  '@derodero24/comprs-linux-arm64-musl@2.3.0':
     optional: true
 
-  '@derodero24/comprs-linux-x64-gnu@2.0.2':
+  '@derodero24/comprs-linux-x64-gnu@2.3.0':
     optional: true
 
-  '@derodero24/comprs-linux-x64-musl@2.0.2':
+  '@derodero24/comprs-linux-x64-musl@2.3.0':
     optional: true
 
-  '@derodero24/comprs-win32-arm64-msvc@2.0.2':
+  '@derodero24/comprs-win32-arm64-msvc@2.3.0':
     optional: true
 
-  '@derodero24/comprs-win32-x64-msvc@2.0.2':
+  '@derodero24/comprs-win32-x64-msvc@2.3.0':
     optional: true
 
-  '@derodero24/comprs@2.0.2':
+  '@derodero24/comprs@2.3.0':
     optionalDependencies:
-      '@derodero24/comprs-darwin-arm64': 2.0.2
-      '@derodero24/comprs-darwin-x64': 2.0.2
-      '@derodero24/comprs-linux-arm64-gnu': 2.0.2
-      '@derodero24/comprs-linux-arm64-musl': 2.0.2
-      '@derodero24/comprs-linux-x64-gnu': 2.0.2
-      '@derodero24/comprs-linux-x64-musl': 2.0.2
-      '@derodero24/comprs-win32-arm64-msvc': 2.0.2
-      '@derodero24/comprs-win32-x64-msvc': 2.0.2
+      '@derodero24/comprs-darwin-arm64': 2.3.0
+      '@derodero24/comprs-darwin-x64': 2.3.0
+      '@derodero24/comprs-linux-arm64-gnu': 2.3.0
+      '@derodero24/comprs-linux-arm64-musl': 2.3.0
+      '@derodero24/comprs-linux-x64-gnu': 2.3.0
+      '@derodero24/comprs-linux-x64-musl': 2.3.0
+      '@derodero24/comprs-win32-arm64-msvc': 2.3.0
+      '@derodero24/comprs-win32-x64-msvc': 2.3.0
 
   '@warren-bank/lz4-hc-wasm@3.0.0': {}
 
@@ -344,7 +344,7 @@ snapshots:
       ieee754: 1.2.1
     optional: true
 
-  compress-utils@0.8.0: {}
+  compress-utils@0.11.2: {}
 
   cuint@0.2.2:
     optional: true
